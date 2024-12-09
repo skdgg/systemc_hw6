@@ -12,8 +12,8 @@ SC_MODULE(timer) {
     void runtimer();
 
     SC_CTOR(timer) {
-        SC_THREAD(runtimer);
-        sensitive << clock.pos() << start;
+        SC_CTHREAD(runtimer, clock.pos());  // SC_CTHREAD and clock synch
+        reset_signal_is(start, true);  // start synch
         count = 0;
     }
 };
